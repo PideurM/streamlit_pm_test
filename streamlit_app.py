@@ -42,4 +42,11 @@ my_data_rows = my_cur.fetchall()
 st.header("The fruit load list contains:")
 st.dataframe(my_data_rows)
 
+# Add a text box
+fruit_to_add = st.text_input('What fruit would you like to add ?')
+if st.button('Add Fruit'):
+    my_cur.execute("insert into fruit_load_list values ('" + fruit_to_add + "')")
+    my_cnx.commit()
+    st.write('Thanks for adding', fruit_to_add)
+
 
