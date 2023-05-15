@@ -4,8 +4,6 @@ import requests
 
 import snowflake.connector 
 
-
-
 st.header('Breakfast Menu')
 
 st.text('🥣 Omega 3 & Blueberry Oatmeal')
@@ -35,5 +33,13 @@ st.write('You selected', fruit_choice)
 fruityvice_response = requests.get('https://www.fruityvice.com/api/fruit/' + fruit_choice)
 fruityvice_json = pd.json_normalize(fruityvice_response.json())
 st.dataframe(fruityvice_json) # Display the dataframe
+
+# Call Snowflake
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_data_row = my_cur.fetchone()
+st.text("Hello from Snowflake:")
+st.text(my_data_row)
 
 
